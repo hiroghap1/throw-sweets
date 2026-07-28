@@ -61,8 +61,22 @@ public class InputHandler : MonoBehaviour
 
     private void UpdateLine()
     {
-        Vector3 origin = spawner.Current.transform.position;
-        directionLine.SetPosition(0, origin);
-        directionLine.SetPosition(1, origin + ThrowVelocity().normalized * 1.2f);
+        // 衝突予測なしの単純な放物線（PLAN.md §5.3 の簡易版）
+        const int maxSteps = 24;
+        const float dt = 0.06f;
+        Vector3 p = spawner.Current.transform.position;
+        Vector3 vel = ThrowVelocity();
+        directionLine.positionCount = maxSteps;
+        for (int i = 0; i < maxSteps; i++)
+        {
+            directionLine.SetPosition(i, p);
+            vel += Physics.gravity * dt;
+            p += vel * dt;
+            if (p.y < 0f && i > 2)
+            {
+                directionLine.positionCount = i + 1;
+                break;
+            }
+        }
     }
 }

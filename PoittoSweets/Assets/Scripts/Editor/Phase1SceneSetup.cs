@@ -188,10 +188,10 @@ public static class Phase1SceneSetup
     {
         Camera cam = Camera.main;
         if (cam == null) return;
-        // モック準拠: カウンター手前縁のすぐ上の低い視点。手前縁は画面外、奥へ強くすぼまる遠近感
-        cam.transform.position = new Vector3(0, 2.6f, -3.9f);
-        cam.transform.rotation = Quaternion.Euler(30f, 0f, 0f);
-        cam.fieldOfView = 62f;
+        // モック準拠: 引き気味 + 狭 FOV（ズーム）で、構図を保ったまま手前スイーツの誇張を抑える
+        cam.transform.position = new Vector3(0, 3.6f, -4.8f);
+        cam.transform.rotation = Quaternion.Euler(32f, 0f, 0f);
+        cam.fieldOfView = 50f;
         // 店内背景（Phase 3）までのつなぎとして暖色クリームの単色背景
         cam.clearFlags = CameraClearFlags.SolidColor;
         cam.backgroundColor = new Color(0.94f, 0.87f, 0.78f);
@@ -220,7 +220,7 @@ public static class Phase1SceneSetup
         Material lineMat = GetOrCreateMaterial("Assets/Materials/GuideLine.mat", "Universal Render Pipeline/Unlit", Color.white);
         var line = go.AddComponent<LineRenderer>();
         line.positionCount = 2;
-        line.startWidth = line.endWidth = 0.04f;
+        line.startWidth = line.endWidth = 0.06f;
         line.sharedMaterial = lineMat;
 
         var input = go.AddComponent<InputHandler>();
