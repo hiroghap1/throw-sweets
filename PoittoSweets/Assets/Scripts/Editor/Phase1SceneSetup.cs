@@ -39,8 +39,15 @@ public static class Phase1SceneSetup
             return;
         }
 
-        if (TMP_Settings.defaultFontAsset == null)
-            Debug.LogWarning("[Phase1] TMP のデフォルトフォントが未設定です。文字が表示されない場合は Window → TextMeshPro → Import TMP Essential Resources を実行後、再度セットアップしてください");
+        // TMP Essential Resources 未インポート時は TMP_Settings へのアクセス自体が NRE を投げる
+        bool tmpReady;
+        try { tmpReady = TMP_Settings.defaultFontAsset != null; }
+        catch { tmpReady = false; }
+        if (!tmpReady)
+        {
+            Debug.LogError("[Phase1] TMP Essential Resources が未インポートです。ダイアログの「Import TMP Essentials」（または Window → TextMeshPro → Import TMP Essential Resources）を実行してから、もう一度このメニューを実行してください");
+            return;
+        }
 
         CreateSweetPrefabs(tiers);
 
