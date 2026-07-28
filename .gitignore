@@ -1,0 +1,40 @@
+# ===== macOS =====
+.DS_Store
+
+# ===== Blender バックアップ =====
+*.blend1
+*.blend2
+
+# ===== Unity（PoittoSweets/ = Unity プロジェクト） =====
+PoittoSweets/[Ll]ibrary/
+PoittoSweets/[Tt]emp/
+PoittoSweets/[Oo]bj/
+PoittoSweets/[Bb]uild/
+PoittoSweets/[Bb]uilds/
+PoittoSweets/[Ll]ogs/
+PoittoSweets/[Uu]serSettings/
+PoittoSweets/[Mm]emoryCaptures/
+PoittoSweets/[Rr]ecordings/
+
+# Unity が生成する IDE ソリューション
+PoittoSweets/*.csproj
+PoittoSweets/*.sln
+PoittoSweets/*.slnx
+
+# IDE
+PoittoSweets/.idea/
+PoittoSweets/.vs/
+PoittoSweets/.vscode/
+PoittoSweets/.consulo/
+PoittoSweets/.utmp/
+
+# Unity クラッシュレポート等
+sysinfo.txt
+*.stackdump
+crashlytics-build.properties
+
+# ビルド成果物
+*.apk
+*.aab
+*.unitypackage
+*.app
