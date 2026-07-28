@@ -32,6 +32,7 @@ PoittoSweets/.utmp/
 sysinfo.txt
 *.stackdump
 crashlytics-build.properties
+mono_crash.*
 
 # ビルド成果物
 *.apk

@@ -82,18 +82,18 @@ Phase 0        Phase 1          Phase 2           Phase 3           Phase 4
 
 #### Week 1
 
-- [ ] **① 舞台**: ProBuilder で大理石カウンター（Box + Collider）、斜め視点カメラ、Directional Light を配置
-- [ ] **① 物理設定**: 2.5D 制約を決定 — Rigidbody の Z 位置を固定するか、完全 3D で始めるか（迷ったら **XZ 平面 + 壁 Collider で奥行き制限** から。PLAN.md §11 のリスク対策）
-- [ ] **② SweetSpawner**: SweetData の dropWeight に従いティア 1〜3 をランダム選択、発射ライン上に生成。NEXT の抽選も同時に行う
-- [ ] **③ InputHandler**: ドラッグ左右 = 発射位置移動、ドラッグ上下 = 角度調整（Input System 使用。マウスとタッチ両対応）
-- [ ] **④ 投げ**: 離した瞬間に `Rigidbody.AddForce`（角度 + 固定初速）。投げたら次のスイーツが操作可能になるまでのクールタイム（着地判定 or 一定秒数）
+- [x] **① 舞台**: カウンター（Cube + Collider）、透明壁 4 面、赤い発射ライン、斜め視点カメラ（「Phase 1 シーンセットアップ」メニューで自動構築）
+- [x] **① 物理設定**: 完全 3D + 透明壁 4 面で奥行き制限 に決定（挙動が不安定なら 2.5D 化を再検討）
+- [x] **② SweetSpawner**: dropWeight 重み付き抽選（ティア 1〜3）、NEXT 管理、投げ後 0.9 秒で補充
+- [x] **③ InputHandler**: ドラッグ左右 = 移動、上下 = 角度 20〜70°（Input System の Pointer でマウス / タッチ両対応）
+- [x] **④ 投げ**: リリースで `linearVelocity` 直接設定（角度 + 固定初速 5.2）。方向ガイド線付き
 
 #### Week 2
 
-- [ ] **⑤ MergeSystem**: `OnCollisionEnter` で同ティア判定 → 2 個を消して中点に次ティアを生成。`isMerging` フラグで二重合成を防止（PLAN.md §4 合成ルール）
-- [ ] **⑤ スコア**: 合成時に `SweetData.scoreOnMerge` を加算（GameManager に集約）
-- [ ] **⑥ ゲームオーバー**: 発射ラインを超えた状態が N 秒続いたら判定（トリガー Collider + タイマー）。リトライはシーン再読み込みでよい
-- [ ] **⑦ HUD**: スコア（TextMesh Pro）と NEXT 表示（該当ティアの色を出すだけ）
+- [x] **⑤ MergeSystem**: `OnCollisionEnter` で同ティア判定 → 2 個を消して中点に次ティアをポップ生成。`isMerging` フラグで二重合成を防止
+- [x] **⑤ スコア**: 合成時に `SweetData.scoreOnMerge` を加算（GameManager に集約）
+- [x] **⑥ ゲームオーバー**: 発射ライン（z=-1.8）越え滞留 2 秒で判定（投げ直後 3 秒は猶予）。タップでシーン再読み込み
+- [x] **⑦ HUD**: スコア（TMP）+ NEXT 色表示 + GAME OVER 表示
 - [ ] **Gate 1 判定プレイ**: 10 分プレイして「面白くなりそうか」を判断。投げ心地（初速・角度上限・摩擦・反発）をここで納得いくまで調整 — **手触りが悪いまま Phase 2 に進まない**
 
 ---

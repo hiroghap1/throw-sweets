@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SweetData
   tier: 6
   displayName: "\u30C7\u30B3\u30EC\u30FC\u30B7\u30E7\u30F3\u30B1\u30FC\u30AD"
-  prefab: {fileID: 0}
+  prefab: {fileID: 1991469851832872716, guid: 499c3ba941c14441d9f7b1b1c61eed4d, type: 3}
   radius: 1.11
   mass: 7.5
   scoreOnMerge: 160
