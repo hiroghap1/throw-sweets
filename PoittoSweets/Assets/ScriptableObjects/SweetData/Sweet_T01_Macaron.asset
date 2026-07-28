@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0cd5b82336ff4bc596b2602b0e01324, type: 3}
+  m_Name: Sweet_T01_Macaron
+  m_EditorClassIdentifier: Assembly-CSharp::SweetData
+  tier: 1
+  displayName: "\u30DE\u30AB\u30ED\u30F3"
+  prefab: {fileID: 0}
+  radius: 0.3
+  mass: 1
+  scoreOnMerge: 0
+  dropWeight: 5

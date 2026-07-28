@@ -36,7 +36,7 @@ Phase 0        Phase 1          Phase 2           Phase 3           Phase 4
 
 ### Day 1–2: 環境構築
 
-- [ ] Unity Hub インストール → **Unity 6 LTS（6000.x）** を Android / iOS Build Support 付きでインストール
+- [x] Unity Hub インストール → **Unity 6（6000.2.10f1）** を Android / iOS Build Support 付きでインストール（SDK / NDK / OpenJDK 含む）
 - [x] Unity Personal ライセンスを有効化
 - [x] プロジェクト新規作成: テンプレート **3D (URP)**、プロジェクト名 `PoittoSweets`、保存先はこのリポジトリ直下
 - [x] Blender 最新版をインストール（Phase 2 で使用開始。今は入れるだけ）→ インストール済みを確認
@@ -54,11 +54,11 @@ Phase 0        Phase 1          Phase 2           Phase 3           Phase 4
 
 ### Day 4–5: プロジェクト設定
 
-- [ ] Player Settings: 縦画面固定（Portrait）、ターゲット解像度確認
-- [ ] Splash Image: Unity ロゴをオフ、タイトルロゴのみに設定（PLAN.md §8.1）
+- [ ] Unity メニュー **PoittoSweets → プロジェクト初期セットアップ** を 1 回実行（縦画面固定 / Unity ロゴ非表示 / SweetData 8 ティア分の自動作成。`Assets/Scripts/Editor/ProjectSetup.cs`）
+- [ ] タイトルロゴ画像を Splash に設定（ロゴ制作後。Phase 3 でも可）
 - [x] パッケージ導入: Input System（テンプレート同梱）/ TextMesh Pro（Unity 6 では uGUI に統合済み）/ ProBuilder 6.1.2（manifest.json に追加済み。次回 Unity 起動時に自動解決）
 - [x] `SweetData.cs`（ScriptableObject）の骨格を作成（PLAN.md §8.4 のフィールド定義）
-- [ ] SweetData アセットを 8 ティア分作成（数値は仮でよい。名称は PLAN.md §4 の通り）
+- [x] SweetData アセットを 8 ティア分作成 →「プロジェクト初期セットアップ」メニューが自動作成（初期値: 半径 ×1.3 刻み、スコア倍々 + 最大 1000、ドロップはティア 1〜3 のみ）
 
 ### Day 6–7: ビルド確認（Gate 0 判定）
 
