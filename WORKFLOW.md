@@ -62,9 +62,9 @@ Phase 0        Phase 1          Phase 2           Phase 3           Phase 4
 
 ### Day 6–7: ビルド確認（Gate 0 判定）
 
-- [ ] 空の `Game.unity` シーンを作成
-- [ ] Android 実機 or iOS Simulator でビルド → 起動確認
-- [ ] うまくいかない場合はここで解決してから Phase 1 へ（後回しにしない）
+- [x] `Game.unity` シーンを用意（SampleScene をリネーム）
+- [x] iPhone 実機でビルド → 起動確認（Xcode 26.6 / 無料 Apple ID 署名）
+- [x] **Gate 0 通過（2026-07-28）** — Phase 0 完了
 
 ---
 
