@@ -54,7 +54,7 @@ Phase 0        Phase 1          Phase 2           Phase 3           Phase 4
 
 ### Day 4–5: プロジェクト設定
 
-- [ ] Unity メニュー **PoittoSweets → プロジェクト初期セットアップ** を 1 回実行（縦画面固定 / Unity ロゴ非表示 / SweetData 8 ティア分の自動作成。`Assets/Scripts/Editor/ProjectSetup.cs`）
+- [x] Unity メニュー **PoittoSweets → プロジェクト初期セットアップ** を 1 回実行（縦画面固定 / Unity ロゴ非表示 / SweetData 8 ティア分の自動作成。`Assets/Scripts/Editor/ProjectSetup.cs`）
 - [ ] タイトルロゴ画像を Splash に設定（ロゴ制作後。Phase 3 でも可）
 - [x] パッケージ導入: Input System（テンプレート同梱）/ TextMesh Pro（Unity 6 では uGUI に統合済み）/ ProBuilder 6.1.2（manifest.json に追加済み。次回 Unity 起動時に自動解決）
 - [x] `SweetData.cs`（ScriptableObject）の骨格を作成（PLAN.md §8.4 のフィールド定義）
