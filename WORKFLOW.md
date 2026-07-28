@@ -37,8 +37,8 @@ Phase 0        Phase 1          Phase 2           Phase 3           Phase 4
 ### Day 1–2: 環境構築
 
 - [ ] Unity Hub インストール → **Unity 6 LTS（6000.x）** を Android / iOS Build Support 付きでインストール
-- [ ] Unity Personal ライセンスを有効化
-- [ ] プロジェクト新規作成: テンプレート **3D (URP)**、プロジェクト名 `PoittoSweets`、保存先はこのリポジトリ直下
+- [x] Unity Personal ライセンスを有効化
+- [x] プロジェクト新規作成: テンプレート **3D (URP)**、プロジェクト名 `PoittoSweets`、保存先はこのリポジトリ直下
 - [x] Blender 最新版をインストール（Phase 2 で使用開始。今は入れるだけ）→ インストール済みを確認
 
 ### Day 3: リポジトリ整備
@@ -46,9 +46,9 @@ Phase 0        Phase 1          Phase 2           Phase 3           Phase 4
 - [x] Unity 用 `.gitignore` を配置（`Library/` `Temp/` `Logs/` `UserSettings/` 等を除外）
 - [x] Git LFS を導入し `*.blend` `*.fbx` `*.png` `*.wav` `*.mp3` `*.psd` を LFS 管理に
 - [x] `ArtSource/` フォルダ構成を作成（`Sweets/` `Environment/` `Textures/`）
-- [ ] `PoittoSweets/Assets/` 配下のフォルダ構成を作成（**Unity プロジェクト作成後**に実施。PLAN.md §8.2 の通り）:
+- [x] `PoittoSweets/Assets/` 配下のフォルダ構成を作成（PLAN.md §8.2 の通り）:
   ```
-  Assets/{Scenes, Scripts, ScriptableObjects/SweetData, Prefabs/Sweets, Models/Sweets, Models/Environment, Materials, Audio, UI}
+  Assets/{Scenes, Scripts, ScriptableObjects/SweetData, Prefabs/Sweets, Models/Sweets, Models/Environment, Materials, Audio/Temp, UI}
   ```
 - [x] ここまでを commit（`chore: プロジェクト初期化`）
 
@@ -56,8 +56,8 @@ Phase 0        Phase 1          Phase 2           Phase 3           Phase 4
 
 - [ ] Player Settings: 縦画面固定（Portrait）、ターゲット解像度確認
 - [ ] Splash Image: Unity ロゴをオフ、タイトルロゴのみに設定（PLAN.md §8.1）
-- [ ] パッケージ導入: **Input System / TextMesh Pro / ProBuilder**（DOTween は Phase 2 で判断）
-- [ ] `SweetData.cs`（ScriptableObject）の骨格を作成（PLAN.md §8.4 のフィールド定義）
+- [x] パッケージ導入: Input System（テンプレート同梱）/ TextMesh Pro（Unity 6 では uGUI に統合済み）/ ProBuilder 6.1.2（manifest.json に追加済み。次回 Unity 起動時に自動解決）
+- [x] `SweetData.cs`（ScriptableObject）の骨格を作成（PLAN.md §8.4 のフィールド定義）
 - [ ] SweetData アセットを 8 ティア分作成（数値は仮でよい。名称は PLAN.md §4 の通り）
 
 ### Day 6–7: ビルド確認（Gate 0 判定）
