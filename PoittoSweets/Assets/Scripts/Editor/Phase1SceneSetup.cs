@@ -152,18 +152,18 @@ public static class Phase1SceneSetup
         Material counterMat = GetOrCreateMaterial("Assets/Materials/Counter.mat", "Universal Render Pipeline/Lit", new Color(0.93f, 0.90f, 0.83f)); // モックの暖色系大理石に寄せる
         Material lineMat = GetOrCreateMaterial("Assets/Materials/LaunchLine.mat", "Universal Render Pipeline/Unlit", new Color(0.91f, 0.30f, 0.24f));
 
-        // カウンター（奥行き 6.4）。奥側を 2° 低く傾け、着地後のスイーツが奥へ落ち着くようにする
-        GameObject counter = CreateBox(stage.transform, "Counter", new Vector3(0, -0.25f, 0.7f), new Vector3(5f, 0.5f, 6.4f), counterMat, visible: true, collider: true);
+        // モック準拠の細長カウンター（幅 3.6 × 奥行 7.5 の「滑走路」形状）。奥側を 2° 低く傾ける
+        GameObject counter = CreateBox(stage.transform, "Counter", new Vector3(0, -0.25f, 1.25f), new Vector3(3.6f, 0.5f, 7.5f), counterMat, visible: true, collider: true);
         counter.transform.rotation = Quaternion.Euler(2f, 0f, 0f);
 
         // 透明壁（左右・奥・手前）
-        CreateBox(stage.transform, "WallLeft", new Vector3(-2.6f, 1.5f, 0.7f), new Vector3(0.2f, 4f, 6.4f), null, visible: false, collider: true);
-        CreateBox(stage.transform, "WallRight", new Vector3(2.6f, 1.5f, 0.7f), new Vector3(0.2f, 4f, 6.4f), null, visible: false, collider: true);
-        CreateBox(stage.transform, "WallBack", new Vector3(0, 1.5f, 4.0f), new Vector3(5.4f, 4f, 0.2f), null, visible: false, collider: true);
-        CreateBox(stage.transform, "WallFront", new Vector3(0, 1.5f, -2.6f), new Vector3(5.4f, 4f, 0.2f), null, visible: false, collider: true);
+        CreateBox(stage.transform, "WallLeft", new Vector3(-1.9f, 1.5f, 1.25f), new Vector3(0.2f, 4f, 7.5f), null, visible: false, collider: true);
+        CreateBox(stage.transform, "WallRight", new Vector3(1.9f, 1.5f, 1.25f), new Vector3(0.2f, 4f, 7.5f), null, visible: false, collider: true);
+        CreateBox(stage.transform, "WallBack", new Vector3(0, 1.5f, 5.1f), new Vector3(4.0f, 4f, 0.2f), null, visible: false, collider: true);
+        CreateBox(stage.transform, "WallFront", new Vector3(0, 1.5f, -2.6f), new Vector3(4.0f, 4f, 0.2f), null, visible: false, collider: true);
 
         // 発射ライン（見た目のみ。傾斜した天面より少し上に浮かせる）
-        CreateBox(stage.transform, "LaunchLine", new Vector3(0, 0.12f, -1.8f), new Vector3(5f, 0.02f, 0.05f), lineMat, visible: true, collider: false);
+        CreateBox(stage.transform, "LaunchLine", new Vector3(0, 0.14f, -1.8f), new Vector3(3.6f, 0.02f, 0.05f), lineMat, visible: true, collider: false);
     }
 
     private static GameObject CreateBox(Transform parent, string name, Vector3 pos, Vector3 scale, Material mat, bool visible, bool collider)
@@ -188,10 +188,13 @@ public static class Phase1SceneSetup
     {
         Camera cam = Camera.main;
         if (cam == null) return;
-        // モック準拠: 低く近い視点で、大理石が画面下端から幅いっぱいに広がり奥へ伸びる構図
-        cam.transform.position = new Vector3(0, 3.2f, -4.05f);
-        cam.transform.rotation = Quaternion.Euler(33f, 0f, 0f);
-        cam.fieldOfView = 65f;
+        // モック準拠: カウンター手前縁のすぐ上の低い視点。手前縁は画面外、奥へ強くすぼまる遠近感
+        cam.transform.position = new Vector3(0, 2.6f, -3.9f);
+        cam.transform.rotation = Quaternion.Euler(30f, 0f, 0f);
+        cam.fieldOfView = 62f;
+        // 店内背景（Phase 3）までのつなぎとして暖色クリームの単色背景
+        cam.clearFlags = CameraClearFlags.SolidColor;
+        cam.backgroundColor = new Color(0.94f, 0.87f, 0.78f);
     }
 
     private static void SetupLight()
@@ -209,7 +212,7 @@ public static class Phase1SceneSetup
     {
         var go = new GameObject("Launcher");
         // カウンター面上（傾斜面の z=-2.0 における表面高さ）。スイーツは半径分持ち上げて接地させる
-        go.transform.position = new Vector3(0, 0.09f, -2.0f);
+        go.transform.position = new Vector3(0, 0.11f, -2.0f);
 
         var spawner = go.AddComponent<SweetSpawner>();
         spawner.tiers = tiers;

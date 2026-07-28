@@ -7,14 +7,14 @@ public class InputHandler : MonoBehaviour
     public LineRenderer directionLine;
 
     [Header("移動・角度（画面幅・高さ全体のドラッグを基準にした倍率。解像度非依存）")]
-    public float moveRange = 1.8f;
+    public float moveRange = 1.25f;
     public float moveGain = 1.2f;
     public float angleMin = 20f;
     public float angleMax = 70f;
     public float angleGain = 1.5f;
 
     [Header("投げ")]
-    public float throwSpeed = 5.8f;
+    public float throwSpeed = 6.5f;
 
     private float angle = 45f;
     private bool dragging;
