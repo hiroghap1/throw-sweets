@@ -65,6 +65,7 @@ public static class Phase1SceneSetup
 
         BuildStage();
         SetupCamera();
+        SetupLight();
         SweetSpawner spawner = BuildLauncher(tiers);
         BuildGameManagerAndHud(tiers);
 
@@ -189,6 +190,17 @@ public static class Phase1SceneSetup
         cam.transform.position = new Vector3(0, 6.0f, -7.5f);
         cam.transform.rotation = Quaternion.Euler(38f, 0f, 0f);
         cam.fieldOfView = 60f;
+    }
+
+    private static void SetupLight()
+    {
+        foreach (var l in Object.FindObjectsByType<Light>(FindObjectsSortMode.None))
+        {
+            if (l.type != LightType.Directional) continue;
+            // ほぼ真上からの光。保持中スイーツの影が真下に落ち、高さと狙い位置の手がかりになる
+            l.transform.rotation = Quaternion.Euler(75f, 15f, 0f);
+            break;
+        }
     }
 
     private static SweetSpawner BuildLauncher(SweetData[] tiers)
