@@ -21,6 +21,7 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance == null) return; // Play 中の再コンパイル等で参照が消えた場合の保険
         if (GameManager.Instance.IsGameOver)
         {
             directionLine.enabled = false;

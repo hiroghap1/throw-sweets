@@ -37,7 +37,7 @@ public class SweetSpawner : MonoBehaviour
 
     private void SpawnHeld()
     {
-        if (GameManager.Instance.IsGameOver) return;
+        if (GameManager.Instance == null || GameManager.Instance.IsGameOver) return;
 
         SweetData data = NextData;
         NextData = PickWeighted();

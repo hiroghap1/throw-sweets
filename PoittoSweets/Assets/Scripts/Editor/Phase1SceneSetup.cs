@@ -26,6 +26,11 @@ public static class Phase1SceneSetup
     [MenuItem("PoittoSweets/Phase 1 シーンセットアップ")]
     public static void Run()
     {
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+        {
+            Debug.LogError("[Phase1] Play 中は実行できません。■ ボタンで Play を停止してから実行してください");
+            return;
+        }
         if (SceneManager.GetActiveScene().path != ScenePath)
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
