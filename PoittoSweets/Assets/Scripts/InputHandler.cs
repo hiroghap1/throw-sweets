@@ -14,7 +14,7 @@ public class InputHandler : MonoBehaviour
     public float angleSensitivity = 0.15f;
 
     [Header("投げ")]
-    public float throwSpeed = 5.2f;
+    public float throwSpeed = 5.8f;
 
     private float angle = 45f;
     private bool dragging;

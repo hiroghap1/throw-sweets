@@ -113,6 +113,7 @@ public static class Phase1SceneSetup
             var rb = temp.AddComponent<Rigidbody>();
             rb.mass = data.mass;
             rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            rb.angularDamping = 1.5f; // 転がり抵抗。無いと平面上でほぼ永久に転がり続ける
 
             temp.AddComponent<SweetController>().data = data;
 
@@ -144,20 +145,21 @@ public static class Phase1SceneSetup
         Material counterMat = GetOrCreateMaterial("Assets/Materials/Counter.mat", "Universal Render Pipeline/Lit", new Color(0.85f, 0.83f, 0.80f));
         Material lineMat = GetOrCreateMaterial("Assets/Materials/LaunchLine.mat", "Universal Render Pipeline/Unlit", new Color(0.91f, 0.30f, 0.24f));
 
-        // カウンター天面が y=0
-        CreateBox(stage.transform, "Counter", new Vector3(0, -0.25f, 0), new Vector3(5f, 0.5f, 4.4f), counterMat, visible: true, collider: true);
+        // カウンター（奥行き 6.4）。奥側を 2° 低く傾け、着地後のスイーツが奥へ落ち着くようにする
+        GameObject counter = CreateBox(stage.transform, "Counter", new Vector3(0, -0.25f, 0.7f), new Vector3(5f, 0.5f, 6.4f), counterMat, visible: true, collider: true);
+        counter.transform.rotation = Quaternion.Euler(2f, 0f, 0f);
 
         // 透明壁（左右・奥・手前）
-        CreateBox(stage.transform, "WallLeft", new Vector3(-2.6f, 1.5f, 0), new Vector3(0.2f, 4f, 4.4f), null, visible: false, collider: true);
-        CreateBox(stage.transform, "WallRight", new Vector3(2.6f, 1.5f, 0), new Vector3(0.2f, 4f, 4.4f), null, visible: false, collider: true);
-        CreateBox(stage.transform, "WallBack", new Vector3(0, 1.5f, 2.3f), new Vector3(5.4f, 4f, 0.2f), null, visible: false, collider: true);
-        CreateBox(stage.transform, "WallFront", new Vector3(0, 1.5f, -2.3f), new Vector3(5.4f, 4f, 0.2f), null, visible: false, collider: true);
+        CreateBox(stage.transform, "WallLeft", new Vector3(-2.6f, 1.5f, 0.7f), new Vector3(0.2f, 4f, 6.4f), null, visible: false, collider: true);
+        CreateBox(stage.transform, "WallRight", new Vector3(2.6f, 1.5f, 0.7f), new Vector3(0.2f, 4f, 6.4f), null, visible: false, collider: true);
+        CreateBox(stage.transform, "WallBack", new Vector3(0, 1.5f, 4.0f), new Vector3(5.4f, 4f, 0.2f), null, visible: false, collider: true);
+        CreateBox(stage.transform, "WallFront", new Vector3(0, 1.5f, -2.6f), new Vector3(5.4f, 4f, 0.2f), null, visible: false, collider: true);
 
-        // 発射ライン（見た目のみ）
-        CreateBox(stage.transform, "LaunchLine", new Vector3(0, 0.02f, -1.8f), new Vector3(5f, 0.02f, 0.05f), lineMat, visible: true, collider: false);
+        // 発射ライン（見た目のみ。傾斜した天面より少し上に浮かせる）
+        CreateBox(stage.transform, "LaunchLine", new Vector3(0, 0.12f, -1.8f), new Vector3(5f, 0.02f, 0.05f), lineMat, visible: true, collider: false);
     }
 
-    private static void CreateBox(Transform parent, string name, Vector3 pos, Vector3 scale, Material mat, bool visible, bool collider)
+    private static GameObject CreateBox(Transform parent, string name, Vector3 pos, Vector3 scale, Material mat, bool visible, bool collider)
     {
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
         go.name = name;
@@ -172,14 +174,15 @@ public static class Phase1SceneSetup
             Object.DestroyImmediate(go.GetComponent<MeshFilter>());
         }
         if (!collider) Object.DestroyImmediate(go.GetComponent<BoxCollider>());
+        return go;
     }
 
     private static void SetupCamera()
     {
         Camera cam = Camera.main;
         if (cam == null) return;
-        cam.transform.position = new Vector3(0, 5.2f, -6.8f);
-        cam.transform.rotation = Quaternion.Euler(36f, 0f, 0f);
+        cam.transform.position = new Vector3(0, 6.0f, -7.5f);
+        cam.transform.rotation = Quaternion.Euler(38f, 0f, 0f);
         cam.fieldOfView = 60f;
     }
 
