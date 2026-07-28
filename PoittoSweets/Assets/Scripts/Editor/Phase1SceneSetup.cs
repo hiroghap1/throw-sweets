@@ -120,6 +120,7 @@ public static class Phase1SceneSetup
             rb.mass = data.mass;
             rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
             rb.angularDamping = 1.5f; // 転がり抵抗。無いと平面上でほぼ永久に転がり続ける
+            rb.maxDepenetrationVelocity = 2f; // 合成時のめり込み解消で周囲が吹き飛ばないよう制限
 
             temp.AddComponent<SweetController>().data = data;
 
@@ -148,7 +149,7 @@ public static class Phase1SceneSetup
     {
         var stage = new GameObject("Stage");
 
-        Material counterMat = GetOrCreateMaterial("Assets/Materials/Counter.mat", "Universal Render Pipeline/Lit", new Color(0.85f, 0.83f, 0.80f));
+        Material counterMat = GetOrCreateMaterial("Assets/Materials/Counter.mat", "Universal Render Pipeline/Lit", new Color(0.93f, 0.90f, 0.83f)); // モックの暖色系大理石に寄せる
         Material lineMat = GetOrCreateMaterial("Assets/Materials/LaunchLine.mat", "Universal Render Pipeline/Unlit", new Color(0.91f, 0.30f, 0.24f));
 
         // カウンター（奥行き 6.4）。奥側を 2° 低く傾け、着地後のスイーツが奥へ落ち着くようにする
@@ -187,9 +188,10 @@ public static class Phase1SceneSetup
     {
         Camera cam = Camera.main;
         if (cam == null) return;
-        cam.transform.position = new Vector3(0, 6.0f, -7.5f);
-        cam.transform.rotation = Quaternion.Euler(38f, 0f, 0f);
-        cam.fieldOfView = 60f;
+        // モック準拠: 低く近い視点で、大理石が画面下端から幅いっぱいに広がり奥へ伸びる構図
+        cam.transform.position = new Vector3(0, 3.2f, -4.05f);
+        cam.transform.rotation = Quaternion.Euler(33f, 0f, 0f);
+        cam.fieldOfView = 65f;
     }
 
     private static void SetupLight()
@@ -206,7 +208,8 @@ public static class Phase1SceneSetup
     private static SweetSpawner BuildLauncher(SweetData[] tiers)
     {
         var go = new GameObject("Launcher");
-        go.transform.position = new Vector3(0, 1.1f, -2.0f);
+        // カウンター面上（傾斜面の z=-2.0 における表面高さ）。スイーツは半径分持ち上げて接地させる
+        go.transform.position = new Vector3(0, 0.09f, -2.0f);
 
         var spawner = go.AddComponent<SweetSpawner>();
         spawner.tiers = tiers;

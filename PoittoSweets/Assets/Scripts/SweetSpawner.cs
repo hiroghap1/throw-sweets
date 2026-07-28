@@ -18,8 +18,8 @@ public class SweetSpawner : MonoBehaviour
 
     private void Update()
     {
-        // 保持中のスイーツは発射位置（自身）に追従
-        if (Current != null) Current.transform.position = transform.position;
+        // 保持中のスイーツは発射位置に追従（カウンター面に接するよう半径分持ち上げる）
+        if (Current != null) Current.transform.position = transform.position + Vector3.up * Current.data.radius;
     }
 
     private SweetData PickWeighted()
@@ -42,7 +42,7 @@ public class SweetSpawner : MonoBehaviour
         SweetData data = NextData;
         NextData = PickWeighted();
 
-        GameObject go = Instantiate(data.prefab, transform.position, Quaternion.identity);
+        GameObject go = Instantiate(data.prefab, transform.position + Vector3.up * data.radius, Quaternion.identity);
         go.GetComponent<Rigidbody>().isKinematic = true;
         Current = go.GetComponent<SweetController>();
 

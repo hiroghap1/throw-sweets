@@ -29,20 +29,17 @@ public class MergeSystem : MonoBehaviour
         GameObject go = Instantiate(next.prefab, pos, Quaternion.identity);
         go.GetComponent<SweetController>().OnLaunched();
 
-        var rb = go.GetComponent<Rigidbody>();
-        rb.isKinematic = true;
-
-        // ポップ演出: 0 → 等倍へスケールイン
+        // 物理を有効にしたまま小→等倍へ成長させ、周囲をなだらかに押しのける
+        // （キネマティックで等倍出現させると、めり込み解消で周囲が吹き飛ぶ）
         Vector3 fullScale = go.transform.localScale;
-        const float duration = 0.15f;
+        const float duration = 0.25f;
         float t = 0f;
-        while (t < duration)
+        while (t < duration && go != null)
         {
             t += Time.deltaTime;
-            go.transform.localScale = fullScale * Mathf.SmoothStep(0f, 1f, t / duration);
+            go.transform.localScale = fullScale * Mathf.Lerp(0.3f, 1f, Mathf.SmoothStep(0f, 1f, t / duration));
             yield return null;
         }
-        go.transform.localScale = fullScale;
-        rb.isKinematic = false;
+        if (go != null) go.transform.localScale = fullScale;
     }
 }

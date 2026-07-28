@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("投げた直後は判定から除外する秒数")]
     public float graceAfterLaunch = 3f;
     [Tooltip("ライン越え滞留がこの秒数続いたらゲームオーバー")]
-    public float overDuration = 2f;
+    public float overDuration = 2.5f;
 
     [Header("UI")]
     public TextMeshProUGUI scoreText;

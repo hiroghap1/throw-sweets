@@ -6,12 +6,12 @@ public class InputHandler : MonoBehaviour
     public SweetSpawner spawner;
     public LineRenderer directionLine;
 
-    [Header("移動・角度")]
+    [Header("移動・角度（画面幅・高さ全体のドラッグを基準にした倍率。解像度非依存）")]
     public float moveRange = 1.8f;
-    public float moveSensitivity = 0.01f;
+    public float moveGain = 1.2f;
     public float angleMin = 20f;
     public float angleMax = 70f;
-    public float angleSensitivity = 0.15f;
+    public float angleGain = 1.5f;
 
     [Header("投げ")]
     public float throwSpeed = 5.8f;
@@ -41,9 +41,9 @@ public class InputHandler : MonoBehaviour
         {
             Vector2 delta = pointer.delta.ReadValue();
             Vector3 p = transform.position;
-            p.x = Mathf.Clamp(p.x + delta.x * moveSensitivity, -moveRange, moveRange);
+            p.x = Mathf.Clamp(p.x + delta.x / Screen.width * moveRange * 2f * moveGain, -moveRange, moveRange);
             transform.position = p;
-            angle = Mathf.Clamp(angle + delta.y * angleSensitivity, angleMin, angleMax);
+            angle = Mathf.Clamp(angle + delta.y / Screen.height * (angleMax - angleMin) * angleGain, angleMin, angleMax);
         }
 
         if (dragging && pointer.press.wasReleasedThisFrame)
@@ -61,7 +61,8 @@ public class InputHandler : MonoBehaviour
 
     private void UpdateLine()
     {
-        directionLine.SetPosition(0, transform.position);
-        directionLine.SetPosition(1, transform.position + ThrowVelocity().normalized * 1.2f);
+        Vector3 origin = spawner.Current.transform.position;
+        directionLine.SetPosition(0, origin);
+        directionLine.SetPosition(1, origin + ThrowVelocity().normalized * 1.2f);
     }
 }
