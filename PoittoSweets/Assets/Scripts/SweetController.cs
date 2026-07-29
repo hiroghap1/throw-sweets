@@ -13,6 +13,9 @@ public class SweetController : MonoBehaviour
     public float TimeSinceLaunch => Launched ? Time.time - launchTime : 0f;
 
     private float launchTime;
+    private SweetFace face;
+
+    private void Awake() => face = GetComponentInChildren<SweetFace>();
 
     private void OnEnable() => All.Add(this);
     private void OnDisable() => All.Remove(this);
@@ -21,6 +24,7 @@ public class SweetController : MonoBehaviour
     {
         Launched = true;
         launchTime = Time.time;
+        if (face != null) face.SetSurprised(true); // 飛んでいる間はびっくり顔
     }
 
     private void Update()
@@ -31,6 +35,12 @@ public class SweetController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (Launched && face != null)
+        {
+            face.SetSurprised(false); // 着地したら通常顔に戻る
+            if (collision.relativeVelocity.magnitude > 1.5f) face.Impact(); // 強くぶつかるとギュッ
+        }
+
         if (!collision.gameObject.TryGetComponent(out SweetController other)) return;
         if (other.data.tier != data.tier) return;
         if (!Launched || !other.Launched) return;

@@ -103,6 +103,16 @@ public static class Phase1SceneSetup
         if (!AssetDatabase.IsValidFolder("Assets/Materials/Sweets"))
             AssetDatabase.CreateFolder("Assets/Materials", "Sweets");
 
+        // 顔アトラス（アルファ切り抜きの Unlit）。全ティア共通
+        var faceTex = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Textures/FaceAtlas.png");
+        Material faceMat = GetOrCreateMaterial("Assets/Materials/FaceAtlas.mat", "Universal Render Pipeline/Unlit", Color.white);
+        faceMat.mainTexture = faceTex;
+        faceMat.SetFloat("_AlphaClip", 1f);
+        faceMat.EnableKeyword("_ALPHATEST_ON");
+        faceMat.SetFloat("_Cutoff", 0.5f);
+        if (faceTex == null)
+            Debug.LogWarning("[Phase1] Assets/Textures/FaceAtlas.png が見つかりません。顔が表示されません");
+
         for (int i = 0; i < tiers.Length; i++)
         {
             SweetData data = tiers[i];
@@ -123,6 +133,18 @@ public static class Phase1SceneSetup
             rb.maxDepenetrationVelocity = 2f; // 合成時のめり込み解消で周囲が吹き飛ばないよう制限
 
             temp.AddComponent<SweetController>().data = data;
+
+            var faceGo = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            faceGo.name = "Face";
+            Object.DestroyImmediate(faceGo.GetComponent<MeshCollider>());
+            faceGo.transform.SetParent(temp.transform, false);
+            faceGo.transform.localPosition = new Vector3(0, 0, -0.52f);
+            faceGo.transform.localScale = Vector3.one * 0.55f;
+            var faceRend = faceGo.GetComponent<MeshRenderer>();
+            faceRend.sharedMaterial = faceMat;
+            faceRend.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            faceRend.receiveShadows = false;
+            faceGo.AddComponent<SweetFace>();
 
             GameObject prefab = PrefabUtility.SaveAsPrefabAsset(temp, $"Assets/Prefabs/Sweets/{data.name}.prefab");
             Object.DestroyImmediate(temp);
