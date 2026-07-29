@@ -90,10 +90,10 @@ def build_t01_macaron():
     pink = make_material("MacaronPink", (0.93, 0.52, 0.62))
     cream = make_material("MacaronCream", (0.99, 0.95, 0.88), roughness=0.6)
 
-    # 上下のシェル（つぶした球）+ 間のクリーム
-    add_sphere("ShellTop", 0.5, 0.34, 0.14, pink)
-    add_sphere("ShellBottom", 0.5, 0.34, -0.14, pink)
-    add_cylinder("Cream", 0.44, 0.14, 0.0, cream)
+    # 上下のシェル（厚めのぽってり形状）+ 間の薄いクリーム
+    add_sphere("ShellTop", 0.5, 0.46, 0.15, pink)
+    add_sphere("ShellBottom", 0.5, 0.46, -0.15, pink)
+    add_cylinder("Cream", 0.46, 0.10, 0.0, cream)
 
     join_all("Sweet_T01_Macaron")
     export("Sweet_T01_Macaron")

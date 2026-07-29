@@ -90,15 +90,14 @@ public static class Phase1SceneSetup
         PhysicsMaterial physMat = AssetDatabase.LoadAssetAtPath<PhysicsMaterial>("Assets/Materials/SweetPhysics.physicMaterial");
         if (physMat == null)
         {
-            physMat = new PhysicsMaterial("SweetPhysics")
-            {
-                bounciness = 0.3f,
-                dynamicFriction = 0.4f,
-                staticFriction = 0.4f,
-                bounceCombine = PhysicsMaterialCombine.Average,
-            };
+            physMat = new PhysicsMaterial("SweetPhysics");
             AssetDatabase.CreateAsset(physMat, "Assets/Materials/SweetPhysics.physicMaterial");
         }
+        physMat.bounciness = 0.3f;
+        physMat.dynamicFriction = 0.3f; // 大理石の上をすべる感触
+        physMat.staticFriction = 0.3f;
+        physMat.bounceCombine = PhysicsMaterialCombine.Average;
+        EditorUtility.SetDirty(physMat);
 
         if (!AssetDatabase.IsValidFolder("Assets/Materials/Sweets"))
             AssetDatabase.CreateFolder("Assets/Materials", "Sweets");
@@ -143,7 +142,7 @@ public static class Phase1SceneSetup
             var rb = temp.AddComponent<Rigidbody>();
             rb.mass = data.mass;
             rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-            rb.angularDamping = 1.5f; // 転がり抵抗。無いと平面上でほぼ永久に転がり続ける
+            rb.freezeRotation = true; // モデルは転がさない。移動は大理石上の「すべり」で表現
             rb.maxDepenetrationVelocity = 2f; // 合成時のめり込み解消で周囲が吹き飛ばないよう制限
 
             temp.AddComponent<SweetController>().data = data;
