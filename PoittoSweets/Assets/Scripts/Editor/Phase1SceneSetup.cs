@@ -150,7 +150,7 @@ public static class Phase1SceneSetup
         var stage = new GameObject("Stage");
 
         Material counterMat = GetOrCreateMaterial("Assets/Materials/Counter.mat", "Universal Render Pipeline/Lit", new Color(0.93f, 0.90f, 0.83f)); // モックの暖色系大理石に寄せる
-        Material lineMat = GetOrCreateMaterial("Assets/Materials/LaunchLine.mat", "Universal Render Pipeline/Unlit", new Color(0.91f, 0.30f, 0.24f));
+        Material lineMat = GetOrCreateMaterial("Assets/Materials/LaunchLine.mat", "Universal Render Pipeline/Unlit", new Color(0.96f, 0.55f, 0.55f)); // モックの淡いピンク赤
 
         // モック準拠の細長カウンター（幅 3.6 × 奥行 7.5 の「滑走路」形状）。奥側を 2° 低く傾ける
         GameObject counter = CreateBox(stage.transform, "Counter", new Vector3(0, -0.25f, 1.25f), new Vector3(3.6f, 0.5f, 7.5f), counterMat, visible: true, collider: true);
@@ -189,8 +189,8 @@ public static class Phase1SceneSetup
         Camera cam = Camera.main;
         if (cam == null) return;
         // モック準拠: 引き気味 + 狭 FOV（ズーム）で、構図を保ったまま手前スイーツの誇張を抑える
-        cam.transform.position = new Vector3(0, 3.6f, -4.8f);
-        cam.transform.rotation = Quaternion.Euler(32f, 0f, 0f);
+        cam.transform.position = new Vector3(0, 3.6f, -4.65f);
+        cam.transform.rotation = Quaternion.Euler(34f, 0f, 0f);
         cam.fieldOfView = 50f;
         // 店内背景（Phase 3）までのつなぎとして暖色クリームの単色背景
         cam.clearFlags = CameraClearFlags.SolidColor;
@@ -223,9 +223,18 @@ public static class Phase1SceneSetup
         line.startWidth = line.endWidth = 0.06f;
         line.sharedMaterial = lineMat;
 
+        var ringGo = new GameObject("LandingRing");
+        ringGo.transform.SetParent(go.transform, false);
+        var ring = ringGo.AddComponent<LineRenderer>();
+        ring.loop = true;
+        ring.positionCount = 24;
+        ring.startWidth = ring.endWidth = 0.05f;
+        ring.sharedMaterial = lineMat;
+
         var input = go.AddComponent<InputHandler>();
         input.spawner = spawner;
         input.directionLine = line;
+        input.landingRing = ring;
         return spawner;
     }
 

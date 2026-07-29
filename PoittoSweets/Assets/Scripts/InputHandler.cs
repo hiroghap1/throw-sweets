@@ -5,6 +5,7 @@ public class InputHandler : MonoBehaviour
 {
     public SweetSpawner spawner;
     public LineRenderer directionLine;
+    public LineRenderer landingRing;
 
     [Header("移動・角度（画面幅・高さ全体のドラッグを基準にした倍率。解像度非依存）")]
     public float moveRange = 1.25f;
@@ -25,11 +26,13 @@ public class InputHandler : MonoBehaviour
         if (GameManager.Instance.IsGameOver)
         {
             directionLine.enabled = false;
+            landingRing.enabled = false;
             return;
         }
 
         bool hasSweet = spawner.Current != null;
         directionLine.enabled = hasSweet;
+        landingRing.enabled = hasSweet;
         if (hasSweet) UpdateLine();
 
         var pointer = Pointer.current;
@@ -59,24 +62,42 @@ public class InputHandler : MonoBehaviour
         return new Vector3(0f, Mathf.Sin(rad), Mathf.Cos(rad)) * throwSpeed;
     }
 
+    // カウンター天面の高さ（傾斜 2°、z=-2.0 で y=0.11）
+    private static float SurfaceY(float z) => 0.11f - (z + 2.0f) * Mathf.Tan(2f * Mathf.Deg2Rad);
+
     private void UpdateLine()
     {
-        // 衝突予測なしの単純な放物線（PLAN.md §5.3 の簡易版）
-        const int maxSteps = 24;
-        const float dt = 0.06f;
-        Vector3 p = spawner.Current.transform.position;
+        // 放物線は着地点の計算のみに使い、表示は「面に沿ったガイド線 + 着地リング」
+        // （正面投げの放物線は真後ろ視点では縦棒に潰れて見えないため）
+        SweetController sweet = spawner.Current;
+        float r = sweet.data.radius;
+        Vector3 p = sweet.transform.position;
         Vector3 vel = ThrowVelocity();
-        directionLine.positionCount = maxSteps;
-        for (int i = 0; i < maxSteps; i++)
+
+        const float dt = 0.02f;
+        for (int i = 0; i < 300; i++)
         {
-            directionLine.SetPosition(i, p);
             vel += Physics.gravity * dt;
             p += vel * dt;
-            if (p.y < 0f && i > 2)
-            {
-                directionLine.positionCount = i + 1;
-                break;
-            }
+            if (vel.y < 0f && p.y <= SurfaceY(p.z) + r) break;
+            if (p.z > 5f) break;
+        }
+
+        const float hover = 0.04f;
+        Vector3 start = sweet.transform.position;
+        start.z += r;
+        start.y = SurfaceY(start.z) + hover;
+        var end = new Vector3(p.x, SurfaceY(p.z) + hover, p.z);
+
+        directionLine.positionCount = 2;
+        directionLine.SetPosition(0, start);
+        directionLine.SetPosition(1, end);
+
+        int seg = landingRing.positionCount;
+        for (int i = 0; i < seg; i++)
+        {
+            float a = i / (float)seg * Mathf.PI * 2f;
+            landingRing.SetPosition(i, end + new Vector3(Mathf.Cos(a) * r, 0.01f, Mathf.Sin(a) * r));
         }
     }
 }
