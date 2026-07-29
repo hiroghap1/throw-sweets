@@ -188,10 +188,11 @@ public static class Phase1SceneSetup
     {
         Camera cam = Camera.main;
         if (cam == null) return;
-        // モック準拠の構図（奥の辺: 上から約 21%・幅 49%、操作スイーツ: 幅 24%、側辺消失: 59%）
-        cam.transform.position = new Vector3(0, 3.8f, -4.0f);
-        cam.transform.rotation = Quaternion.Euler(38f, 0f, 0f);
-        cam.fieldOfView = 60f;
+        // モック準拠の構図 + 軽いドリーズーム（0.5m 引き + 望遠）で手前スイーツの誇張を抑える
+        // ※これ以上引くと手前縁の向こう側（カウンター前面）が画面下に映り込むので注意
+        cam.transform.position = new Vector3(0, 4.1f, -4.4f);
+        cam.transform.rotation = Quaternion.Euler(36.5f, 0f, 0f);
+        cam.fieldOfView = 58f;
         // 店内背景（Phase 3）までのつなぎとして暖色クリームの単色背景
         cam.clearFlags = CameraClearFlags.SolidColor;
         cam.backgroundColor = new Color(0.94f, 0.87f, 0.78f);

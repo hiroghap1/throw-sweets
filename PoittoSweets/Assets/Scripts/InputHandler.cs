@@ -8,7 +8,7 @@ public class InputHandler : MonoBehaviour
     public LineRenderer landingRing;
 
     [Header("移動・角度（画面幅・高さ全体のドラッグを基準にした倍率。解像度非依存）")]
-    public float moveRange = 1.25f;
+    public float moveRange = 1.35f;
     public float moveGain = 1.2f;
     public float angleMin = 20f;
     public float angleMax = 70f;
