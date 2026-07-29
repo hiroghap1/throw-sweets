@@ -8,6 +8,7 @@
   - 顔はモデルに含めない（Unity の SweetFace が顔クアッドを被せる）
   - .blend は ArtSource/Sweets/ へ、FBX は PoittoSweets/Assets/Models/Sweets/ へ出力
 """
+import math
 import os
 
 import bpy
@@ -56,9 +57,21 @@ def add_sphere(name, radius, scale_z, z, mat, segments=24, rings=12):
     return obj
 
 
-def add_cylinder(name, radius, depth, z, mat, vertices=24):
+def add_cylinder(name, radius, depth, z, mat, vertices=24, loc=None, rot=(0, 0, 0)):
     bpy.ops.mesh.primitive_cylinder_add(
-        vertices=vertices, radius=radius, depth=depth, location=(0, 0, z)
+        vertices=vertices, radius=radius, depth=depth,
+        location=loc or (0, 0, z), rotation=rot,
+    )
+    obj = bpy.context.active_object
+    obj.name = name
+    obj.data.materials.append(mat)
+    bpy.ops.object.shade_smooth()
+    return obj
+
+
+def add_cone(name, r_bottom, r_top, depth, z, mat, vertices=24):
+    bpy.ops.mesh.primitive_cone_add(
+        vertices=vertices, radius1=r_bottom, radius2=r_top, depth=depth, location=(0, 0, z)
     )
     obj = bpy.context.active_object
     obj.name = name
@@ -99,5 +112,52 @@ def build_t01_macaron():
     export("Sweet_T01_Macaron")
 
 
+def build_t02_choux():
+    clear_scene()
+    puff = make_material("ChouxPuff", (0.85, 0.62, 0.38), roughness=0.55)
+    choco = make_material("ChouxChoco", (0.32, 0.18, 0.10), roughness=0.35)
+
+    # シュー生地 + 上のチョコがけ
+    add_sphere("Puff", 0.5, 0.78, -0.05, puff)
+    add_sphere("Choco", 0.40, 0.5, 0.22, choco)
+
+    join_all("Sweet_T02_ChocoPuff")
+    export("Sweet_T02_ChocoPuff")
+
+
+def build_t03_cupcake():
+    clear_scene()
+    cup = make_material("CupcakeCup", (0.45, 0.27, 0.16), roughness=0.5)
+    whip = make_material("CupcakeWhip", (0.99, 0.95, 0.88), roughness=0.55)
+
+    # カップ（上広がりの台形） + 3 段ホイップ
+    add_cone("Cup", 0.30, 0.42, 0.4, -0.25, cup)
+    add_sphere("Whip1", 0.40, 0.55, 0.0, whip)
+    add_sphere("Whip2", 0.29, 0.55, 0.18, whip)
+    add_sphere("Whip3", 0.17, 0.60, 0.34, whip)
+
+    join_all("Sweet_T03_Cupcake")
+    export("Sweet_T03_Cupcake")
+
+
+def build_t04_rollcake():
+    clear_scene()
+    outer = make_material("RollOuter", (0.55, 0.33, 0.20), roughness=0.5)
+    cream = make_material("RollCream", (0.99, 0.95, 0.88), roughness=0.55)
+
+    # 本体（X 軸に沿って横倒し）+ 両端のクリーム断面 + 上の飾りホイップ
+    rot_y90 = (0, math.radians(90), 0)
+    add_cylinder("Roll", 0.42, 0.9, 0, outer, vertices=28, rot=rot_y90)
+    add_cylinder("CreamL", 0.36, 0.02, 0, cream, loc=(-0.455, 0, 0), rot=rot_y90)
+    add_cylinder("CreamR", 0.36, 0.02, 0, cream, loc=(0.455, 0, 0), rot=rot_y90)
+    add_sphere("Topping", 0.14, 0.7, 0.46, cream)
+
+    join_all("Sweet_T04_RollCake")
+    export("Sweet_T04_RollCake")
+
+
 build_t01_macaron()
+build_t02_choux()
+build_t03_cupcake()
+build_t04_rollcake()
 print("[build_sweets] DONE")
