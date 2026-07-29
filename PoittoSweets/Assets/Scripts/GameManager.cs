@@ -58,7 +58,8 @@ public class GameManager : MonoBehaviour
         foreach (var sweet in SweetController.All)
         {
             if (!sweet.Launched || sweet.TimeSinceLaunch < graceAfterLaunch) continue;
-            if (sweet.transform.position.z < lineZ)
+            // 中心ではなく「ボールの手前端」で判定（大きいボールは壁があるため中心がラインまで届かない）
+            if (sweet.transform.position.z - sweet.data.radius < lineZ)
             {
                 anyOverLine = true;
                 break;

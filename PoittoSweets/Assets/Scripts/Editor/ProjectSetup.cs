@@ -7,14 +7,14 @@ public static class ProjectSetup
     // 半径は T8 直径がフィールド幅 3.6 の約 52% に収まるスケール（モックの奥の大ケーキと同等比率）
     private static readonly (int tier, string assetName, string display, float radius, float mass, int score, float weight)[] Tiers =
     {
-        (1, "Sweet_T01_Macaron",        "マカロン",             0.26f,  1.0f,    0, 5f),
-        (2, "Sweet_T02_ChocoPuff",      "チョコシュー",          0.31f,  1.4f,   10, 3f),
-        (3, "Sweet_T03_Cupcake",        "カップケーキ",          0.37f,  2.0f,   20, 2f),
-        (4, "Sweet_T04_RollCake",       "ロールケーキ",          0.45f,  2.8f,   40, 0f),
-        (5, "Sweet_T05_Shortcake",      "ショートケーキ",        0.54f,  3.9f,   80, 0f),
-        (6, "Sweet_T06_DecorationCake", "デコレーションケーキ",   0.65f,  5.5f,  160, 0f),
-        (7, "Sweet_T07_WholeCake",      "ホールケーキ",          0.78f,  7.7f,  320, 0f),
-        (8, "Sweet_T08_GrandCake",      "グランドいちごケーキ",   0.93f, 10.8f, 1000, 0f),
+        (1, "Sweet_T01_Macaron",        "マカロン",             0.22f,  1.0f,    0, 5f),
+        (2, "Sweet_T02_ChocoPuff",      "チョコシュー",          0.26f,  1.4f,   10, 3f),
+        (3, "Sweet_T03_Cupcake",        "カップケーキ",          0.32f,  2.0f,   20, 2f),
+        (4, "Sweet_T04_RollCake",       "ロールケーキ",          0.38f,  2.8f,   40, 0f),
+        (5, "Sweet_T05_Shortcake",      "ショートケーキ",        0.46f,  3.9f,   80, 0f),
+        (6, "Sweet_T06_DecorationCake", "デコレーションケーキ",   0.55f,  5.5f,  160, 0f),
+        (7, "Sweet_T07_WholeCake",      "ホールケーキ",          0.66f,  7.7f,  320, 0f),
+        (8, "Sweet_T08_GrandCake",      "グランドいちごケーキ",   0.79f, 10.8f, 1000, 0f),
     };
 
     [MenuItem("PoittoSweets/プロジェクト初期セットアップ")]
