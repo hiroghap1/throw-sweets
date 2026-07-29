@@ -20,7 +20,7 @@ public class MergeSystem : MonoBehaviour
         Vector3 mid = (a.transform.position + b.transform.position) * 0.5f;
         Destroy(a.gameObject);
         Destroy(b.gameObject);
-        GameManager.Instance.AddScore(next.scoreOnMerge);
+        GameManager.Instance.AddMergeScore(next.scoreOnMerge);
         StartCoroutine(SpawnMerged(next, mid));
     }
 

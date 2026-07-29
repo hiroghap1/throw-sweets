@@ -257,6 +257,11 @@ public static class Phase1SceneSetup
             anchor: new Vector2(0.5f, 1f), pos: new Vector2(0, -60), size: new Vector2(600, 120),
             new Color(0.35f, 0.25f, 0.20f));
 
+        gm.comboText = CreateText(hud.transform, "ComboText", "×1.5", 56,
+            anchor: new Vector2(0.5f, 1f), pos: new Vector2(0, -170), size: new Vector2(300, 70),
+            new Color(0.91f, 0.45f, 0.35f));
+        gm.comboText.gameObject.SetActive(false);
+
         CreateText(hud.transform, "NextLabel", "NEXT", 40,
             anchor: new Vector2(1f, 1f), pos: new Vector2(-95, -40), size: new Vector2(200, 50),
             new Color(0.35f, 0.25f, 0.20f));

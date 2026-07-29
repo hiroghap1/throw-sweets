@@ -16,8 +16,15 @@ public class GameManager : MonoBehaviour
     [Tooltip("ライン越え滞留がこの秒数続いたらゲームオーバー")]
     public float overDuration = 2.5f;
 
+    [Header("コンボ")]
+    [Tooltip("この秒数以内の連続合成でコンボ継続")]
+    public float comboWindow = 3f;
+    public float comboStep = 0.5f;
+    public float comboMax = 3f;
+
     [Header("UI")]
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI comboText;
     public TextMeshProUGUI gameOverText;
     public Image nextImage;
 
@@ -25,6 +32,8 @@ public class GameManager : MonoBehaviour
 
     private int score;
     private float overTimer;
+    private int comboCount;
+    private float lastMergeTime = -999f;
 
     private void Awake() => Instance = this;
 
@@ -32,6 +41,20 @@ public class GameManager : MonoBehaviour
     {
         score += amount;
         scoreText.text = score.ToString("N0");
+    }
+
+    public void AddMergeScore(int baseScore)
+    {
+        comboCount = Time.time - lastMergeTime <= comboWindow ? comboCount + 1 : 1;
+        lastMergeTime = Time.time;
+        float mult = Mathf.Min(1f + comboStep * (comboCount - 1), comboMax);
+        AddScore(Mathf.RoundToInt(baseScore * mult));
+
+        if (comboCount >= 2)
+        {
+            comboText.text = $"×{mult:0.0}";
+            comboText.gameObject.SetActive(true);
+        }
     }
 
     public void ShowNext(SweetData next)
@@ -49,6 +72,9 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             return;
         }
+        if (comboText.gameObject.activeSelf && Time.time - lastMergeTime > comboWindow)
+            comboText.gameObject.SetActive(false);
+
         CheckGameOver();
     }
 
