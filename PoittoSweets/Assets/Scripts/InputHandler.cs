@@ -15,7 +15,7 @@ public class InputHandler : MonoBehaviour
     public float angleGain = 1.5f;
 
     [Header("投げ")]
-    public float throwSpeed = 6.5f;
+    public float throwSpeed = 7.0f;
 
     private float angle = 45f;
     private bool dragging;
@@ -62,8 +62,8 @@ public class InputHandler : MonoBehaviour
         return new Vector3(0f, Mathf.Sin(rad), Mathf.Cos(rad)) * throwSpeed;
     }
 
-    // カウンター天面の高さ（傾斜 2°、z=-2.0 で y=0.11）
-    private static float SurfaceY(float z) => 0.11f - (z + 2.0f) * Mathf.Tan(2f * Mathf.Deg2Rad);
+    // カウンター天面の高さ（傾斜 2°、z=-2.0 で y=0.14）
+    private static float SurfaceY(float z) => 0.14f - (z + 2.0f) * Mathf.Tan(2f * Mathf.Deg2Rad);
 
     private void UpdateLine()
     {
@@ -80,7 +80,7 @@ public class InputHandler : MonoBehaviour
             vel += Physics.gravity * dt;
             p += vel * dt;
             if (vel.y < 0f && p.y <= SurfaceY(p.z) + r) break;
-            if (p.z > 5f) break;
+            if (p.z > 6.5f) break;
         }
 
         const float hover = 0.04f;
