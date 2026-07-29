@@ -118,12 +118,26 @@ public static class Phase1SceneSetup
             SweetData data = tiers[i];
             Material mat = GetOrCreateMaterial($"Assets/Materials/Sweets/{data.name}.mat", "Universal Render Pipeline/Lit", TierColors[i]);
 
-            GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            temp.name = data.name;
+            // Blender モデル（直径 1m・原点中心）があればそれを使い、なければ色分け球
+            var model = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Models/Sweets/{data.name}.fbx");
+            GameObject temp;
+            SphereCollider col;
+            if (model != null)
+            {
+                temp = new GameObject(data.name);
+                GameObject visual = Object.Instantiate(model, temp.transform);
+                visual.name = "Model";
+                visual.transform.localPosition = Vector3.zero;
+                col = temp.AddComponent<SphereCollider>();
+            }
+            else
+            {
+                temp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                temp.name = data.name;
+                temp.GetComponent<Renderer>().sharedMaterial = mat;
+                col = temp.GetComponent<SphereCollider>();
+            }
             temp.transform.localScale = Vector3.one * (data.radius * 2f);
-            temp.GetComponent<Renderer>().sharedMaterial = mat;
-
-            var col = temp.GetComponent<SphereCollider>();
             col.sharedMaterial = physMat;
 
             var rb = temp.AddComponent<Rigidbody>();
